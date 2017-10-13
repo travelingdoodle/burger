@@ -25,14 +25,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+
+// Override with POST having ?_method=DELETE
+app.use(methodOverride("_method"));
+
+// Set Handlebars.
+var exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 // ================================================================================
 // ROUTER
 // The below points our server to a series of "route" files.
 // These routes give our server a "map" of how to respond when users visit or request data from various URLs.
 // ================================================================================
-
-require("./app/routing/apiRoutes")(app);
-require("./app/routing/htmlRoutes")(app);
+var routes = require("./controllers/burgers_controller.js");
+app.use("/", routes);
 
 // ==============================================================================
 // LISTENER

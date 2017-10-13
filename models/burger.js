@@ -28,4 +28,4 @@ updateOne: function(objColVals, id, cb)
 }
 };
 
-module.exports = burgers;
+module.exports = burger;
